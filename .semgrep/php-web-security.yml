@@ -1,0 +1,146 @@
+rules:
+
+  # =========================================================
+  # 1. SQL Injection
+  # =========================================================
+  - id: php-web-sql-injection
+    message: >
+      사용자 입력값이 SQL 쿼리에 직접 전달될 수 있습니다.
+      Prepared Statement와 바인딩 파라미터 사용을 권장합니다.
+    languages:
+      - php
+    severity: HIGH
+    mode: taint
+
+    pattern-sources:
+      - pattern-either:
+          - pattern: $_GET[$KEY]
+          - pattern: $_POST[$KEY]
+          - pattern: $_REQUEST[$KEY]
+          - pattern: $_COOKIE[$KEY]
+
+    pattern-sinks:
+      - pattern-either:
+          - pattern: mysql_query($QUERY)
+          - pattern: mysqli_query($DB, $QUERY)
+          - pattern: $DB->query($QUERY)
+          - pattern: $DB->exec($QUERY)
+
+
+  # =========================================================
+  # 2. Cross-Site Scripting (XSS)
+  # =========================================================
+  - id: php-web-xss
+    message: >
+      사용자 입력값이 HTML 응답으로 직접 출력될 수 있습니다.
+      htmlspecialchars() 등을 사용하여 출력 인코딩을 적용하세요.
+    languages:
+      - php
+    severity: HIGH
+    mode: taint
+
+    pattern-sources:
+      - pattern-either:
+          - pattern: $_GET[$KEY]
+          - pattern: $_POST[$KEY]
+          - pattern: $_REQUEST[$KEY]
+          - pattern: $_COOKIE[$KEY]
+
+    pattern-sinks:
+      - pattern-either:
+          - pattern: echo $DATA;
+          - pattern: print $DATA;
+          - pattern: printf($DATA, ...)
+
+    pattern-sanitizers:
+      - pattern-either:
+          - pattern: htmlspecialchars(...)
+          - pattern: htmlentities(...)
+
+
+  # =========================================================
+  # 3. OS Command Injection
+  # =========================================================
+  - id: php-web-command-injection
+    message: >
+      사용자 입력값이 OS 명령 실행 함수로 전달될 수 있습니다.
+      외부 입력값을 명령 문자열에 직접 사용하지 마세요.
+    languages:
+      - php
+    severity: CRITICAL
+    mode: taint
+
+    pattern-sources:
+      - pattern-either:
+          - pattern: $_GET[$KEY]
+          - pattern: $_POST[$KEY]
+          - pattern: $_REQUEST[$KEY]
+          - pattern: $_COOKIE[$KEY]
+
+    pattern-sinks:
+      - pattern-either:
+          - pattern: system($CMD)
+          - pattern: exec($CMD)
+          - pattern: shell_exec($CMD)
+          - pattern: passthru($CMD)
+          - pattern: popen($CMD, ...)
+          - pattern: proc_open($CMD, ...)
+
+
+  # =========================================================
+  # 4. File Inclusion (LFI / RFI)
+  # =========================================================
+  - id: php-web-file-inclusion
+    message: >
+      사용자 입력값이 include/require 경로에 사용될 수 있습니다.
+      공격자가 임의 파일을 포함시키는 LFI/RFI 취약점으로 이어질 수 있습니다.
+    languages:
+      - php
+    severity: CRITICAL
+    mode: taint
+
+    pattern-sources:
+      - pattern-either:
+          - pattern: $_GET[$KEY]
+          - pattern: $_POST[$KEY]
+          - pattern: $_REQUEST[$KEY]
+          - pattern: $_COOKIE[$KEY]
+
+    pattern-sinks:
+      - pattern-either:
+          - pattern: include $FILE;
+          - pattern: include_once $FILE;
+          - pattern: require $FILE;
+          - pattern: require_once $FILE;
+
+
+  # =========================================================
+  # 5. Path Traversal
+  # =========================================================
+  - id: php-web-path-traversal
+    message: >
+      사용자 입력값이 파일 경로에 직접 사용될 수 있습니다.
+      ../ 등을 이용한 Path Traversal 가능성을 확인하세요.
+    languages:
+      - php
+    severity: HIGH
+    mode: taint
+
+    pattern-sources:
+      - pattern-either:
+          - pattern: $_GET[$KEY]
+          - pattern: $_POST[$KEY]
+          - pattern: $_REQUEST[$KEY]
+          - pattern: $_COOKIE[$KEY]
+          - pattern: $_FILES[$KEY]
+
+    pattern-sinks:
+      - pattern-either:
+          - pattern: file_get_contents($PATH)
+          - pattern: file_put_contents($PATH, ...)
+          - pattern: fopen($PATH, ...)
+          - pattern: readfile($PATH)
+          - pattern: unlink($PATH)
+          - pattern: copy($PATH, ...)
+          - pattern: rename($PATH, ...)
+          - pattern: filesize($PATH)

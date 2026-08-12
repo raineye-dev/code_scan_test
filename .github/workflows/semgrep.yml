@@ -1,10 +1,12 @@
-name: Semgrep SAST
+name: Semgrep PHP Web Security Scan
 
 on:
   workflow_dispatch:
+
   push:
     branches:
       - main
+
   pull_request:
     branches:
       - main
@@ -16,31 +18,76 @@ permissions:
 
 jobs:
   semgrep:
-    name: Semgrep Security Scan
+    name: PHP Web Vulnerability Scan
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout source
+      # =====================================================
+      # 1. 소스 체크아웃
+      # =====================================================
+      - name: Checkout repository
         uses: actions/checkout@v4
 
+
+      # =====================================================
+      # 2. Python 설치
+      # =====================================================
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: Install Semgrep
-        run: pip install semgrep
 
-      - name: Run Semgrep
+      # =====================================================
+      # 3. Semgrep 설치
+      # =====================================================
+      - name: Install Semgrep
+        run: |
+          python -m pip install --upgrade pip
+          pip install semgrep
+
+
+      # =====================================================
+      # 4. Semgrep 버전 확인
+      # =====================================================
+      - name: Check Semgrep version
+        run: |
+          semgrep --version
+
+
+      # =====================================================
+      # 5. PHP 웹 취약점 검사
+      #
+      # 검사 대상:
+      # - SQL Injection
+      # - XSS
+      # - Command Injection
+      # - File Inclusion
+      # - Path Traversal
+      # =====================================================
+      - name: Run PHP Web Vulnerability Scan
         run: |
           semgrep scan \
-            --config=auto \
+            --config=.semgrep/php-web-security.yml \
             --sarif-output=semgrep.sarif \
             .
 
-      - name: Upload SARIF to GitHub
+
+      # =====================================================
+      # 6. SARIF 파일 확인
+      # =====================================================
+      - name: Check SARIF result
+        if: always()
+        run: |
+          ls -lh semgrep.sarif || true
+
+
+      # =====================================================
+      # 7. GitHub Code Scanning으로 결과 업로드
+      # =====================================================
+      - name: Upload Semgrep results to GitHub Code Scanning
         if: always()
         uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: semgrep.sarif
-          category: semgrep
+          category: semgrep-php-web-security
