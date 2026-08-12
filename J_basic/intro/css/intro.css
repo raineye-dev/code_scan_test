@@ -1,0 +1,109 @@
+
+  
+@font-face {
+    font-family: 'gmarket';
+    font-style: normal;
+    font-weight:normal;
+    src: url(/theme/J_basic/intro/font/GmarketSansMedium.woff) format('woff')
+}
+@font-face {
+    font-family: 'gmarket';
+    font-style: normal;
+    font-weight: 200;
+    src: url(/theme/J_basic/intro/GmarketSansLight.woff) format('woff')
+}
+@font-face {
+    font-family: 'gmarket';
+    font-style: normal;
+    font-weight:500;
+    src: url(/theme/J_basic/intro/GmarketSansMedium.woff) format('woff')
+}
+@font-face {
+    font-family: 'gmarket';
+    font-style: normal;
+    font-weight:bold;
+    src: url(/theme/J_basic/intro/GmarketSansBold.woff) format('woff')
+}
+.gmarket{font-family: 'gmarket';}
+
+  
+  html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video {margin:0;padding:0;border:0;line-height:150%;letter-spacing:400; font-family:'gmarket', Arial, sans-serif; } /* delete vertical-align,font:inherit; */
+  body {transition: .3s;}
+  body,html {width:100%; height:100%; font-size:16px; color:#444; line-height:150%; word-break:break-all; -webkit-text-size-adjust: 100%; -moz-text-size-adjust: 100%; -ms-text-size-adjust: 100%; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;}
+  * {font-family:'gmarket',  Arial, sans-serif; font-weight:400; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;}
+  ol,ul,li {list-style:none;}
+  blockquote, q {quotes:none;}
+  blockquote:before,blockquote:after,q:before,q:after {content:'';content:none;}
+  table caption {overflow:hidden; font-size:0; line-height:0; font-size:15px;}
+  dt{display:block;}
+  hr{display:none;}
+  a{cursor:pointer;text-decoration:none;color:#666;}
+  a:hover, a:active, a:visited, a:link{text-decoration:none;}
+  address{font-style:normal;}
+  input,select,img{vertical-align:middle;}
+  .input_search {border:0; background-color:#fff; font-size:14px; padding-left:5px; color:#888;}
+  .hide {display:none;}
+  .ls0 { letter-spacing:0 !important; }
+  img{max-width:100%;}
+  h1, h2, h3, h4, h5 {font-weight: 400;}
+  input:focus, select:focus, option:focus, textarea:focus{outline: none;}
+  textarea:focus,
+  img:focus, input[type="text"]:focus,
+  input[type="password"]:focus,
+  input[type="datetime"]:focus,
+  input[type="datetime-local"]:focus,
+  input[type="date"]:focus,
+  input[type="month"]:focus,
+  input[type="time"]:focus,
+  input[type="week"]:focus,
+  input[type="number"]:focus,
+  input[type="email"]:focus,
+  input[type="url"]:focus,
+  input[type="search"]:focus,
+  input[type="tel"]:focus,
+  input[type="color"]:focus,
+  .uneditable-input:focus,
+  select:focus {border-color: none; box-shadow: none;  outline: 0 none;}
+  
+  
+
+  .intro {background: url('/theme/J_basic/intro/img/intro_bg.png') center top no-repeat; padding-top:32px;}
+  .intro .container {max-width:1200px; margin:0 auto;}
+  .intro .container h2 {text-align: center; padding:110px 20px 92px;}
+  .intro .container .link_box {display: flex; width:800px; margin:0 auto;}
+  .intro .container .link_box a {background: #fff; margin-left:30px; width:calc(100% / 2 ); border-radius: 10px; position: relative; overflow: hidden; height:400px; text-align: center; transition:.5s; box-shadow: 0 5px 30px rgba(13, 22, 74, 0.2);}
+  .intro .container .link_box a:hover {border-radius: 20px;/*50px;*/}
+  .intro .container .link_box a:first-child {margin-left:0;}
+  .intro .container .link_box a .box_con {align-items: center; display: table; width:100%; height:325px;}
+  .intro .container .link_box a .box_con .box_con_in { display: table-cell; vertical-align: middle; color:#222; font-size:22px;  padding:0 20px;}
+  .intro .container .link_box a .box_con .box_con_in img {padding-bottom:20px;}
+  .intro .container .link_box a .box_btn {display: table-cell; position: absolute; bottom:0; height: 65px; line-height: 65px; text-align: center; color:#fff; width:100%; font-size:20px;  transition: .3s;}
+  .intro .container .link_box a .btn_blue {background-color: #237CD5;}
+  .intro .container .link_box a .btn_green {background-color: #00B6B3;}
+  .intro .container .link_box a .btn_orange {background-color: #FF8375;}
+  .intro .container .link_box a .btn_blue:hover {background-color: #136BC4; }
+  .intro .container .link_box a .btn_green:hover {background-color: #02A4A1;}
+  .intro .container .link_box a .btn_orange:hover {background-color: #F96F5F;}
+
+  #footer_intro {padding:70px 10px;}
+  #footer_intro p {color:#666; text-align: center; padding-bottom:15px; word-break: keep-all;}
+  #footer_intro p span {color:#00B6B3; font-size:24px; font-weight: bold;}
+
+  @media screen and (max-width:991px) {
+    .intro {background-size: 195%;}
+    .intro .container h2 {text-align: center; padding:60px 20px;}
+  
+  
+}
+
+@media screen and (max-width:768px) {
+    .intro {background-size: 220%;}
+    .intro .container .link_box {display: inline;}
+    .intro .container .link_box a, .intro .container .link_box a:first-child {display: block; width:92%; margin: 0 4% 20px 4%; height:auto;}
+    .intro .container .link_box a .box_con {height: auto; padding:30px 0;}
+    .intro .container .link_box a .box_con .box_con_in {font-size:18px;}
+    .intro .container .link_box a .box_btn {position: relative; width:100%; display: block; font-size:16px; height:50px; line-height: 45px;}
+    #footer_intro {padding:20px 10px;}
+    #footer_intro p {font-size:14px;}
+    
+}
