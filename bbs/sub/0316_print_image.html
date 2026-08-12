@@ -1,0 +1,114 @@
+ <?php
+	include_once('./_common.php');
+
+	add_stylesheet('<link rel="stylesheet" href="/theme/J_basic/css/sub.css">', 0);
+
+	$sql = " select idx, name, birthday, center, reg_date, etc1 from video_education_info where idx='". $_GET['idx'] ."' limit 1";
+	$result = sql_query($sql);
+	$row = sql_fetch_array($result);
+	$birthday = str_replace("-", "", $row['birthday']);
+
+	$reg_year = substr($row['reg_date'], 0, 4);
+	$reg_month = substr($row['reg_date'], 4, 2);
+	$reg_day = substr($row['reg_date'], 6, 2);
+
+	$gkind = ($row['etc1'] == 'T') ? " 청소년" : "";
+
+	$reg_date = $reg_year.". ".$reg_month.". ".$reg_day;
+
+?>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+</head>
+<body>
+<style type="text/css">
+a, a:active, a:hover, a:link, a:visited {
+    text-decoration: none;
+}
+.mbtn-wrap {
+    margin: 40px 0;
+    text-align: center;
+}
+.ldp-btn {
+    /* padding: 0 35px; */
+    cursor: pointer;
+    background: #112f58;
+    border: 1px solid #112f58;
+    color: #fff;
+    display: inline-block;
+    min-width: 190px;
+    font-size: 19px;
+    font-weight: 500;
+    vertical-align: top;
+    text-align: center;
+    transition: all .25s ease;
+    border-radius: 3px;
+}
+.lg-btn span, .ldp-btn span {
+    display: block;
+    padding: 17px 35px;
+    line-height: 1;
+}
+.ldp-btn.go span {
+    color: #fff;
+    font-weight: 500;
+}
+</style>
+
+
+<div class="mbtn-wrap">
+	<a href="#" class="ldp-btn go"  id="btn-Convert-Html2Image"><span>다운로드</span></a>
+</div>
+<div id="html-content-holder" style="width:728px; height:977px; margin:0 auto; position:relative; background: url('http://sinkilho.cafe24.com/kr/bbs/sub/img/completion.jpg')no-repeat center;">
+	
+	<div style="top: 12.9%; position: absolute; left: 32.3%; font-size: 14px; letter-spacing:-0.07em"><?=$row['idx']?></div>
+	<div style="top: 32.5%; position: absolute; left: 56.5%;font-size: 15px;">
+		<ul style="margin:0px; padding:0px;">
+			<li style="line-height: 23px; list-style:none; letter-spacing:-0.05em;"><?=$row['name']?></li>
+			<li style="line-height: 23px; list-style:none; letter-spacing:-0.05em;"><?=substr($birthday, 0, 4)?>. <?=substr($birthday, 4, 2)?>. <?=substr($birthday, 6, 2)?></li>
+			<li style="line-height: 23px; list-style:none; letter-spacing:-0.05em;">전라남도 <?=$row['center']?></li>
+			<li style="line-height: 23px; list-style:none; letter-spacing:-0.05em;"><?=$reg_year . $gkind?> 온라인 자원봉사교육</li>
+			<li style="line-height: 23px; list-style:none; letter-spacing:-0.05em;"><?=$reg_date?>(1시간)</li>
+		</ul>
+	</div>
+	<div style="top: 69%; position: absolute; left: 43%; font-size: 22px; font-weight: 500; letter-spacing:-0.05em;"><span><?=$reg_year?></span>년 <span><?=$reg_month?></span>월 <span><?=$reg_day?></span>일</div>
+</div>
+
+<!-- <input id="btn-Preview-Image" type="button" value="Download" /> -->
+
+<br/>
+<div id="previewImage" style="display:none;">
+</div>
+
+
+<script>
+$(document).ready(function(){
+
+var idx = '<?=$row['idx']?>';
+var element = $("#html-content-holder"); // global variable
+var getCanvas; // global variable
+
+
+	$("#html-content-holder").show();
+	 html2canvas(element, {
+	 onrendered: function (canvas) {
+			$("#previewImage").append(canvas);
+			getCanvas = canvas;
+		 }
+	 });
+
+
+	$("#btn-Convert-Html2Image").on('click', function () {
+    var imgageData = getCanvas.toDataURL("image/png");
+    // Now browser starts downloading it instead of just showing it
+    var newData = imgageData.replace(/^data:image\/png/, "data:application/octet-stream");
+    $("#btn-Convert-Html2Image").attr("download", "Certificates"+idx+".png").attr("href", newData);
+	});
+
+});
+
+</script>
+</body>
+</html>

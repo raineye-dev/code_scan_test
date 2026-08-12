@@ -1,0 +1,56 @@
+
+/* root element for accordion. decorated with rounded borders and gradient background image */
+#accordion {
+	border-top: 2px solid #0d2d4f;
+	width:100%;
+
+}
+
+/* accordion header */
+#accordion h2 {
+	display: block;
+    position: relative;
+    width: 100%;
+    padding: 20px 33px;
+    font-size: 18px;
+    color: #000;
+    font-weight: 700;
+    text-align: left;
+    background: none;
+	border-bottom: 1px solid #dddddd;
+	background: #dfe6ed;
+		border-top: 2px solid #0d2d4f;
+}
+
+
+#accordion h2:after {
+    position: absolute;
+    top: 50%;
+    right: 32px;
+    width: 18px;
+    height: 11px;
+    margin-top: -6px;
+   /*  background: url(/bbs/sub/faq/ico_faq_arrow.png); */
+    content: '';
+}
+
+/* currently active header */
+#accordion h2.current {
+	cursor:default;
+	background: #dfe6ed;
+
+}
+
+/* accordion pane */
+#accordion .pane {
+	display:none;
+
+}
+
+/* a title inside pane */
+#accordion .pane h3 {
+	font-weight:normal;
+	margin:0 0 -5px 0;
+	font-size:16px;
+	color:#999;
+}
